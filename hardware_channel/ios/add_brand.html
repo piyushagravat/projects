@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/skeleton.css" />
+        <link rel="stylesheet" type="text/css" href="css/spinner.css" />
+        <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.css" /> -->
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Add Brand</title>
+    </head>
+    <body class="with_header_footer">
+      <div id="wait-full">
+        <p>Please Wait...</p>
+      </div>
+      <style>
+
+        #content-wrapper {
+          text-align: center;
+        }
+
+
+
+        #main-content {
+            padding: 0 15px;
+            margin: 0 auto;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .btn-default  {
+            width: 100% !important;
+            background: white;
+            color: black;
+          }
+
+          .mobileSelect-control {
+            color: black;
+          }
+
+          .mobileSelect-container.white .list-container .mobileSelect-control.selected {
+            background-color: #43B3AE;
+          }
+
+      </style>
+
+      <!-- header -->
+      <div class="container-fluid">
+        <div class="row">
+          <div id="header" class="twelve column">
+
+              <span id="header-logo-text">Add New Brand</span>
+              <span id="header-menu">
+
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- main content  -->
+      <div class="container-fluid">
+        <div class="row" id="content-wrapper">
+          <div id="main-content" class="twelve column">
+            <div id="error"></div>
+
+            <form id="add_dealer_frm" action="" method="POST">
+              <input type="hidden" name="selclient" value="" id="mid" />
+
+              Brand Name
+              <input name="txtbrandname" id="txtbrandname" type="text" value="" placeholder="" required="yes" />
+
+              <!-- Post Data : mid,
+              first_name, last_name, email, mobileno, address1, address2, city, state,  -->
+
+              Catalouge (.pdf - upto 10MB) (Optional)
+              <input type="file" name="userfile1" id="filepdf" />
+
+              <input name="submit" type="submit" class="default-button default-button-big full-width" value="Add Brand" id="register_btn" >
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- footer
+      <div id="footer-wrapper" class="container-fluid">
+        <div class="row">
+          <div id="footer" class="twelve column">
+              <table>
+                <tr><td>
+                  <img id="footer-notification" src="img/ic_action_social_notifications.png" />
+                </td>
+                <td>
+                  <img id="footer-search" src="img/ic_search.png" />
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div> -->
+
+
+        <script type='application/javascript' src='js/jquery-2.1.4.min.js'></script>
+        <script type='application/javascript' src='js/index.js'></script>
+
+
+        <script type="application/javascript">
+
+        $registerForm = $("#add_dealer_frm");
+        $registerButton = $("#register_btn");
+
+        $pdfFile = $("#filepdf");
+
+
+        var API_URL = API_BASE + "/add_brands";
+
+
+          $(function($){
+
+            $("#mid").val(getUserId());
+
+
+              $registerForm.on('submit', function(e) {
+                e.preventDefault();
+
+                var fileext = getFileExtenstion($pdfFile.val());
+                console.log("File Ext Is: '" + fileext + "'");
+                if(fileext == "") {
+
+                } else if(fileext != "pdf") {
+                  alertP('Only pdf file allowed in Catalogue');
+                  e.preventDefault();
+                  return;
+                }
+
+                $registerButton.val('Adding...');
+                hideError();
+
+                var formData = new FormData($(this)[0]);
+
+                $("#wait-full").show();
+                setTimeout(function(){
+                  console.log("API_URL: " + API_URL);
+                  $.ajax({
+                    type: 'POST',
+                    url: API_URL,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    async: true,
+                    dataType: 'json',
+                    timeout: 10000000,
+                    context: $('body'),
+                    success: function(data) {
+                        console.log("Login Response: ");
+                        console.log(data);
+                        if(data.status == "fail") {
+                            $registerButton.val('Add Brand');
+                            showError(data.data.title);
+                            $("#wait-full").hide();
+                        } else {
+                          sendNotification(NOTI_TYPE_BRANDS, function(noti_data){
+                              $("#wait-full").hide();
+                              window.location = "add_brand_success.html";
+                          });
+
+                        }
+                    },
+                    error: function(xhr, type){
+                        $registerButton.val('Add Brand');
+                        console.log(type);
+                        showError(NETWORK_ERROR_MSG);
+                        $("#wait-full").hide();
+                    }
+                  });
+                }, 1000);
+
+
+
+
+              });
+
+          });
+
+
+
+
+        </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,65 @@
+[30-May-2016 19:30:38 Asia/Kolkata] PHP Fatal error:  Call to undefined method Manufacturer::last_query() in /home/xitij09/public_html/application/controllers/manufacturer.php on line 34
+[03-Jun-2016 11:54:02 Asia/Kolkata] PHP Fatal error:  Call to a member function result() on a non-object in /home/xitij09/public_html/application/controllers/welcome.php on line 27
+[03-Jun-2016 11:54:07 Asia/Kolkata] PHP Fatal error:  Call to a member function result() on a non-object in /home/xitij09/public_html/application/controllers/welcome.php on line 27
+[24-Jun-2016 12:05:59 Asia/Kolkata] PHP Fatal error:  Cannot redeclare Welcome::dashboard() in /home/xitij09/public_html/application/controllers/welcome.php on line 22
+[31-Aug-2016 11:03:07 Asia/Kolkata] PHP Fatal error:  Call to undefined function getRealPOST() in /home/xitij09/public_html/application/controllers/hardwareapi.php on line 270
+[31-Aug-2016 11:14:31 Asia/Kolkata] PHP Parse error:  syntax error, unexpected end of file, expecting ')' in /home/xitij09/public_html/application/controllers/hardwareapi.php on line 1167
+[31-Aug-2016 12:18:28 Asia/Kolkata] PHP Fatal error:  Call to undefined method CI_Input::input_stream() in /home/xitij09/public_html/application/controllers/hardwareapi.php on line 261
+[31-Aug-2016 19:32:27 Asia/Kolkata] PHP Fatal error:  Cannot use object of type stdClass as array in /home/xitij09/public_html/application/models/inquirymodel.php on line 371
+[31-Aug-2016 19:32:57 Asia/Kolkata] PHP Fatal error:  Call to undefined method stdClass::get() in /home/xitij09/public_html/application/models/inquirymodel.php on line 371
+[01-Sep-2016 11:04:05 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'as' (T_AS) in /home/xitij09/public_html/application/views/inquiry/dealerinquiry.php on line 37
+[01-Sep-2016 11:04:58 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'as' (T_AS) in /home/xitij09/public_html/application/views/inquiry/dealerinquiry.php on line 37
+[01-Sep-2016 11:05:01 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'as' (T_AS) in /home/xitij09/public_html/application/views/inquiry/dealerinquiry.php on line 37
+[06-Sep-2016 11:48:14 Asia/Kolkata] PHP Parse error:  syntax error, unexpected ')' in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 52
+[06-Sep-2016 11:52:25 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 53
+[06-Sep-2016 12:01:51 Asia/Kolkata] PHP Fatal error:  Call to undefined method stdClass::row() in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 48
+[06-Sep-2016 12:05:05 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'print_r' (T_STRING) in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 49
+[06-Sep-2016 12:12:06 Asia/Kolkata] PHP Parse error:  syntax error, unexpected end of file in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 84
+[06-Sep-2016 12:35:10 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '==' (T_IS_EQUAL) in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 58
+[06-Sep-2016 12:40:12 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE), expecting '(' in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 58
+[06-Sep-2016 12:41:02 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE), expecting '(' in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 58
+[06-Sep-2016 12:41:08 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE), expecting '(' in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 58
+[06-Sep-2016 13:02:13 Asia/Kolkata] PHP Parse error:  syntax error, unexpected ')' in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 57
+[06-Sep-2016 13:05:38 Asia/Kolkata] PHP Fatal error:  Call to a member function row() on a non-object in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 44
+[06-Sep-2016 13:06:04 Asia/Kolkata] PHP Fatal error:  Call to a member function row() on a non-object in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 44
+[06-Sep-2016 13:08:08 Asia/Kolkata] PHP Fatal error:  Call to a member function row() on a non-object in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 44
+[06-Sep-2016 13:08:35 Asia/Kolkata] PHP Fatal error:  Call to undefined method stdClass::row() in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 49
+[06-Sep-2016 13:17:34 Asia/Kolkata] PHP Fatal error:  Call to undefined method stdClass::row() in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 47
+[06-Sep-2016 13:19:01 Asia/Kolkata] PHP Fatal error:  Uncaught exception 'Exception' with message 'No records found' in /home/xitij09/public_html/application/models/inquirymodel.php:400
+Stack trace:
+#0 /home/xitij09/public_html/application/views/reports/viewcustomerlist.php(47): InquiryModel->get_maufacturer_by_pid('0')
+#1 /home/xitij09/public_html/system/core/Loader.php(833): include('/home/xitij09/p...')
+#2 /home/xitij09/public_html/system/core/Loader.php(419): CI_Loader->_ci_load(Array)
+#3 /home/xitij09/public_html/application/controllers/reports.php(485): CI_Loader->view('reports/viewcus...', Array)
+#4 [internal function]: Reports->viewcustomerdata()
+#5 /home/xitij09/public_html/system/core/CodeIgniter.php(359): call_user_func_array(Array, Array)
+#6 /home/xitij09/public_html/index.php(202): require_once('/home/xitij09/p...')
+#7 {main}
+  thrown in /home/xitij09/public_html/application/models/inquirymodel.php on line 400
+[06-Sep-2016 13:21:05 Asia/Kolkata] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 43
+[06-Sep-2016 13:37:44 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'foreach' (T_FOREACH) in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 43
+[06-Sep-2016 13:37:48 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'foreach' (T_FOREACH) in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 43
+[06-Sep-2016 13:41:46 Asia/Kolkata] PHP Fatal error:  Call to a member function row() on a non-object in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 46
+[06-Sep-2016 13:42:01 Asia/Kolkata] PHP Fatal error:  Call to a member function result() on a non-object in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 46
+[06-Sep-2016 13:42:05 Asia/Kolkata] PHP Fatal error:  Call to a member function result() on a non-object in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 46
+[06-Sep-2016 13:52:34 Asia/Kolkata] PHP Fatal error:  Cannot use [] for reading in /home/xitij09/public_html/application/views/reports/viewcustomerlist.php on line 47
+[14-Sep-2016 15:40:57 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$id' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 354
+[14-Sep-2016 15:41:02 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$id' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 354
+[14-Sep-2016 15:42:40 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$id' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 354
+[14-Sep-2016 15:45:31 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$pageid' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 356
+[14-Sep-2016 15:45:39 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$pageid' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 356
+[14-Sep-2016 15:46:15 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$pageid' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 356
+[14-Sep-2016 15:46:45 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$id' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 355
+[14-Sep-2016 15:59:43 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$id' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 355
+[14-Sep-2016 16:01:18 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '$offset' (T_VARIABLE) in /home/xitij09/public_html/application/controllers/product.php on line 354
+[14-Sep-2016 16:10:36 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/xitij09/public_html/application/controllers/product.php on line 357
+[14-Sep-2016 16:10:41 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '.' in /home/xitij09/public_html/application/controllers/product.php on line 357
+[14-Sep-2016 18:54:18 Asia/Kolkata] PHP Parse error:  syntax error, unexpected end of file in /home/xitij09/public_html/application/controllers/brand.php on line 224
+[16-Sep-2016 12:26:37 Asia/Kolkata] PHP Parse error:  syntax error, unexpected '*', expecting function (T_FUNCTION) in /home/xitij09/public_html/application/models/dealermodel.php on line 128
+[16-Sep-2016 14:42:55 Asia/Kolkata] PHP Fatal error:  Call to undefined function phperror_reporting() in /home/xitij09/public_html/application/views/users/all.php on line 1
+[16-Sep-2016 14:43:04 Asia/Kolkata] PHP Fatal error:  Call to undefined function phperror_reporting() in /home/xitij09/public_html/application/views/users/all.php on line 1
+[16-Sep-2016 14:43:25 Asia/Kolkata] PHP Fatal error:  Call to undefined function phperror_reporting() in /home/xitij09/public_html/application/views/users/all.php on line 40
+[24-Sep-2016 11:33:07 Asia/Kolkata] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/xitij09/public_html/application/controllers/welcome.php on line 36
+[24-Sep-2016 11:33:09 Asia/Kolkata] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home/xitij09/public_html/application/controllers/welcome.php on line 36
+[24-Sep-2016 13:35:48 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/xitij09/public_html/application/views/dealer/all.php on line 134
+[24-Sep-2016 13:40:05 Asia/Kolkata] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/xitij09/public_html/application/views/dealer/all.php on line 134

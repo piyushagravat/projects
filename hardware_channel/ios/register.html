@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/skeleton.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-fullscreen-select.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hardware</title>
+        <style>
+          textarea {
+            width: 100%;
+          }
+
+          a {
+              color: black;
+          }
+
+          input[type=email] {
+            width: 100%;
+            background: white;
+            color: black;
+            padding: 24px 10px;
+          }
+
+          input[type=radio] {
+              padding: 5px;
+              text-align: left;
+          }
+
+          label { display:  inline; }
+
+          #terms {
+              overflow: auto;
+              display: none;
+              position: absolute;
+              top: 10px;
+              bottom: 10px;
+              left: 0;
+              right: 0;
+              background: white;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 3px;
+          }
+
+          #terms .close {
+              position: absolute;
+              right: 10px;
+              border: 1px solid #ccc;
+              border-radius: 50%;
+              padding: 2px 10px;
+          }
+
+          #terms .close:active {
+              background: #ccc;
+          }
+        </style>
+    </head>
+    <body>
+      <div id="blackoverlay"></div>
+      <div id="wait-full">
+        <p>Please Wait...</p>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div id="login-wrapper" class="twelve column">
+            <img src="img/logo.png" alt="Logo" class="logo" />
+            <h4>Registration</h4>
+            <div id="error"></div>
+            <!-- Post Data : first_name, last_name, company_name, address,
+            email, password, file1(Image), file2(image), contact,  -->
+            <form id="register_frm" action="" method="POST">
+              <input name="first_name" id="first_name" type="text" value="" placeholder="First Name" required="yes" />
+              <input name="last_name" id="last_name" type="text" value="" placeholder="Last Name" required="yes" />
+              <input name="company_name" id="company_name" type="text" value="" placeholder="Company Name" required="yes" />
+              <input name="contact" id="contact" type="text" value="" placeholder="Contact No" required="yes" />
+              <textarea name="address" id="address" placeholder="Address" required="yes"></textarea>
+
+              <select id="country" name="country">
+                <option value="Select Country...">Select Country...</option>
+                <option data-id='1' value='India'>India</option>
+              </select>
+              <select id="state" name="state" required="true">
+                <option value="Select State..." >Select State...</option>
+              </select>
+              <select name="city" id="city" required="true">
+                <option value="First Select State" >First Select State</option>
+              </select>
+
+
+              <input name="email" id="email" type="email" value="" placeholder="e-mail" required="yes" />
+              <input name="email_re" id="email-re" type="email" value="" placeholder="Retype e-mail" required="yes" />
+              <input name="password" id="password" type="password" value="" placeholder="Password" required="yes" />
+
+              <div style="text-align: left;">Company Logo (.jpg/.png)
+              <input name="userfile1" id="file1" type="file" value="" placeholder="Logo" required="yes" />
+              </div>
+
+              <div style="text-align: left;">Company Profile (Optional)</div>
+              <textarea name="about_manf" id="about_manf"></textarea>
+              <!--
+                <div style="text-align: left;">Catalogue (.pdf) </div>
+                <input name="file2" id="file2" type="file" value="" placeholder="Image" required="yes" />
+                <br/>
+              -->
+
+              <div style="text-align: left">
+                <b>I’m a</b><br/>
+                <input type="radio" name="type" id="typei" value="Importer" required="true">
+                  <label for="typei">Importer</label><br/>
+                <input type="radio" name="type" id="typem" value="Manufacturer" required="true">
+                  <label for="typem">Manufacturer</label><br/>
+                <input type="radio" name="type" id="typeb" value="Both" required="true">
+                  <label for="typeb">Both</label>
+              </div>
+              <br/>
+
+
+              <table>
+                <tr>
+                  <td style="text-align: right">
+                    <input name="agree" id="agree" type="checkbox" value="" required="yes" />
+                  </td>
+                  <td style="line-height: 20px;">
+                    <span>Please agree to the <a href="#" id="terms-open" >terms &amp; conditions</a> for using our services.</span>
+                  </td>
+                </tr>
+              </table>
+
+              <input name="submit" type="submit" class="default-button default-button-big full-width" value="Register" id="register_btn" >
+            </form>
+              <p>OR</p>
+              <a id="cancle_registration" class="button">Cancel</a>
+          </div>
+        </div>
+        <div id="terms">
+            <span class="close">x</span>
+            <h4>Terms &amp; Condition</h4>
+            <div id="terms-text"></div>
+
+        </div>
+      </div>
+
+
+        <script type='application/javascript' src='js/fastclick.js'></script>
+        <script type='application/javascript' src='js/winstore-jscompact.js'></script>
+        <script type='application/javascript' src='js/jquery-2.1.4.min.js'></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type='application/javascript' src='js/index.js'></script>
+
+        <script type='application/javascript' src='js/bootstrap.js'></script>
+        <script type='application/javascript' src='js/bootstrap-fullscreen-select.min.js'></script>
+        <script type='application/javascript' src='js/state_city.js'></script>
+        <script type='application/javascript' src='js/state_city_code.js'></script>
+
+        <script type="application/javascript">
+            var $registerButton = $('#register_btn');
+            var $registerForm = $('#register_frm');
+            var $waitFull = $("#wait-full");
+
+            var $first_name = $("#first_name");
+            var $last_name = $("#last_name");
+            var $address = $("#address");
+            var $contact = $("#contact");
+            var $email = $("#email");
+            var $emailRe = $("#email-re");
+            var $password = $("#password");
+            var $file1 = $("#file1");
+            // var $file2 = $("#file2");
+            var $agree = $("#agree");
+
+            $(function($){
+                getPageById("8", function(data) {
+                    $("#terms-text").html(data.data[0].page_contant);
+                });
+            });
+
+
+            $("#terms .close").on('click', function(){
+                $("#terms").hide();
+            });
+
+            $("#terms-open").on('click', function(){
+                $("#terms").show();
+            });
+
+            $("#cancle_registration").on("click", function() {
+                navigator.notification.confirm(
+                  "Are you sure, you want to cancel registration?",
+                  function(button){
+                      if(button == 1) {
+                          window.location = "singin_or_register.html";
+                      }
+                  },
+                  "Exit?",
+                  "Yes, No"
+                );
+            });
+
+            function getExtenstion(filename) {
+                return filename.substr(filename.lastIndexOf('.') + 1);
+            }
+
+
+            $registerForm.on('submit', function(e) {
+              var file1ext = getExtenstion($file1.val());
+              //var file2ext = getExtenstion($file2.val());
+
+              if($("#first_name").val().trim() == "") {
+                alertP("Please Enter First Name");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#last_name").val().trim() == "") {
+                alertP("Please Enter Last Name");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#company_name").val().trim() == "") {
+                alertP("Please Enter Company Name");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#contact").val().trim() == "") {
+                alertP("Please Enter Contact No");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#address").val().trim() == "") {
+                alertP("Please Enter Address");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#email").val().trim() == "") {
+                alertP("Please Enter Email");
+                e.preventDefault();
+                return false;
+              }
+
+              if($password.val().length < 4) {
+                alertP('Please enter password containing atleast 4 characters.');
+                e.preventDefault();
+                return;
+              }
+
+              if( ! isValidPhoneNo($contact.val())) {
+                alertP('Contact Number Is Not Valid, Only 10 Digits Allowed');
+                e.preventDefault();
+                return;
+              }
+
+			  /* TODO: check only for iOS */
+			  /*
+              if(file1ext == "jpg" || file1ext == "png") {
+
+              } else {
+                  alertP('Please select an image of your company logo in jpg/png format.');
+                  e.preventDefault();
+                  return;
+              }
+              */
+              /* if(file2ext != "pdf") {
+                  alertP('Only pdf file allowed in Catalogue');
+                  e.preventDefault();
+                  return;
+              } */
+
+              if($agree.is(':checked') != true) {
+                alertP('Please agree to Terms & Condition');
+                e.preventDefault();
+                return;
+              }
+
+              // email check
+              if( ! isValidEmail($email.val())) {
+                alertP("Email address is not valid.");
+                e.preventDefault();
+                return;
+              }
+
+              if($email.val() != $emailRe.val()) {
+                  alertP("The confirmation email doesn't match with entered email.");
+                  e.preventDefault();
+                  return;
+              }
+
+              var isTypeImporterChecked = $("#typei").is(':checked');
+              var isTypeManfChecked = $("#typem").is(':checked');
+              var isTypeBothChecked = $("#typeb").is(':checked');
+              if(!isTypeBothChecked && !isTypeImporterChecked && !isTypeManfChecked) {
+                alertP("Please select are you a Importer/Manufacturer/Both");
+                e.preventDefault();
+                return;
+              }
+
+
+              $registerButton.val('Register...');
+              hideError();
+
+              var formData = new FormData($(this)[0]);
+
+              var apiUrl = API_BASE + REGISTER_ENDPOINT + "/";
+              console.log("API_URL: " + apiUrl);
+              $waitFull.show();
+              setTimeout(function(){
+                $.ajax({
+                  type: 'POST',
+                  url: apiUrl,
+                  data: formData,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  async: false,
+                  dataType: 'json',
+                  timeout: 10000,
+                  context: $('body'),
+                  success: function(data) {
+                      console.log("Login Response: " + data);
+                      if(data.status == "fail") {
+                          $registerButton.val('Register');
+                          showError(data.data.title);
+                          $waitFull.hide();
+                      } else {
+                          window.location = "register_success.html";
+                      }
+                  },
+                  error: function(xhr, type){
+                      $registerButton.val('Register');
+                      showError(NETWORK_ERROR_MSG);
+                      $waitFull.hide();
+                  }
+                });
+              }, 1500);
+
+              e.preventDefault();
+              return false;
+
+            });
+
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/skeleton.css" />
+        <link rel="stylesheet" type="text/css" href="css/spinner.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Manufacturer Profile</title>
+    </head>
+    <body class="with_header_footer">
+      <div id="wait-full">
+        <p>Please Wait...</p>
+      </div>
+
+      <style>
+        #header-menu img {
+            width: 38px !important;
+        }
+
+
+      </style>
+
+
+
+      <!-- header -->
+      <div class="container-fluid">
+        <div class="row">
+          <div id="header" class="twelve column">
+              
+              <span id="header-logo-text">Your Profile</span>
+              <span id="header-menu">
+                <img style="display: none;" id="editIcon" src="img/ic_edit.png" />
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- main content  -->
+      <div class="container-fluid">
+        <div class="row">
+          <div id="login-wrapper" class="twelve column">
+
+            <!--  SPINNER
+            <div class="center-spinner-wrapper">
+              <div class="spinner-loader">Loading...</div>
+            </div> -->
+
+            <!-- EROOR -->
+            <div class="error-wrapper-screen">
+                <div id="error-no-connection-div">Please Check your Network Connection</div>
+                <div id="error-data-div">Try Again Later</div>
+
+                <button id="try-again">Try Again</button>
+            </div>
+
+            <style>
+              textarea {
+                width: 100%;
+              }
+
+              a {
+                  color: black;
+              }
+
+
+              #form-wrapper.view-mode {
+                color: gray;
+              }
+
+
+
+              #form-wrapper.view-mode input[type=text],
+              #form-wrapper.view-mode textarea  {
+                  border: 0;
+                  background: transparent;
+                  padding: 0;
+                  margin: 0;
+                  margin-bottom: 15px;
+                  color: black;
+                  font-size: 22px;
+              }
+
+              #form-wrapper { margin-top: 20px; text-align: left; }
+
+              #form-wrapper img {
+                  padding: 0 0 20px 0;
+                  max-width: 120px;
+
+              }
+
+            </style>
+
+            <!--
+            fname: "",
+            mname: "",
+            lname: "",
+            username: "sa",
+            email: "",
+            fone_no: "",
+            mob_no: "",
+            address: "",
+            status: "Active"
+           -->
+
+            <form id="form-wrapper" class="view-mode" action="" method="">
+
+              <!-- Post Data : first_name, last_name, company_name, address,
+              email, password, file1(Image), file2(image), contact,  -->
+
+                <input type="hidden" id="mid" name="mid" value="" />
+
+                First Name</br>
+                <input name="first_name" id="first_name" type="text" value="" placeholder="First Name" readonly="" required="yes" />
+
+                Last Name</br>
+                <input name="last_name" id="last_name" type="text" value="" placeholder="Last Name" readonly="" required="yes" />
+
+                Company Name</br>
+                <input name="company_name" id="company_name" type="text" value="" placeholder="Company Name" readonly="" required="yes" />
+
+                Contact No<br/>
+                <input name="contact" id="contact" type="text" value="" placeholder="Contact No" readonly="" required="yes" />
+
+                Address<br/>
+                <textarea name="address" id="address" placeholder="Address" readonly="" required="yes"></textarea>
+
+                E-mail<br/>
+                <input name="email" id="email" type="text" value="" readonly="" placeholder="e-mail" required="yes" />
+
+                Company Profile<br/>
+                <textarea name="about_manf" id="company_profile" placeholder="Write About Your Company" readonly=""></textarea>
+
+
+                Logo<br/>
+                <img src="img/loading.jpg" id="profile_img"  />
+
+
+                <div style="text-align: left;">New Logo Image (jpg/png)</div>
+                <input name="userfile1" id="file1" type="file" value="" readonly="" placeholder="Logo" />
+
+                <!--
+                <div style="text-align: left;">New Catalogue (pdf)</div>
+                <input name="file2" id="file2" type="file" value="" readonly="" placeholder="Image"  />
+                 -->
+                <br/>
+
+
+                <input type="hidden" id="userfile1old" name="userfile1old" />
+
+                <input name="submit" style="display: none;" type="submit" class="default-button default-button-big full-width" value="Save Profile" id="form_button" >
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+
+        <script type='application/javascript' src='js/fastclick.js'></script>
+<script type='application/javascript' src='js/winstore-jscompact.js'></script>
+        <script type='application/javascript' src='js/zepto.min.js'></script>
+        <script type='application/javascript' src='js/hammer.min.js'></script>
+        <script type='application/javascript' src='js/handlebars-v4.0.4.js'></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type='application/javascript' src='js/index.js'></script>
+
+
+
+        <script type="application/javascript">
+
+          $(function($){
+
+            var $waitFull = $("#wait-full");
+
+            var $frmButton = $("#form_button");
+            var API_URL_USER_GET = API_BASE + "/manf_details_by_id/" + getUserId();
+
+            $("#editIcon").on('click', function(e){
+                $("#form-wrapper").removeClass('view-mode');
+                $("input, textarea").each(function(){
+                    if($(this).attr("id") == "email") { return; }
+                    $(this).removeAttr('readOnly');
+                    $frmButton.css('display', 'block');
+                });
+                $("#header-logo-text").text("Edit Your Profile")
+            });
+
+            // save user details
+
+
+            $("#form-wrapper").on('submit', function(e){
+              e.preventDefault();
+
+              if($("#first_name").val().trim() == "") {
+                alertP("Please Enter First Name");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#last_name").val().trim() == "") {
+                alertP("Please Enter Last Name");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#company_name").val().trim() == "") {
+                alertP("Please Enter Company Name");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#contact").val().trim() == "") {
+                alertP("Please Enter Contact No");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#address").val().trim() == "") {
+                alertP("Please Enter Address");
+                e.preventDefault();
+                return false;
+              }
+
+              if($("#email").val().trim() == "") {
+                alertP("Please Enter Email");
+                e.preventDefault();
+                return false;
+              }
+
+              if( ! isValidPhoneNo($("#contact").val().trim())) {
+                alertP('Contact Number Is Not Valid, Only 10 Digits Allowed');
+                e.preventDefault();
+                return;
+              }
+
+              // email check
+              if( ! isValidEmail($("#email").val())) {
+                alertP("Email address is not valid.");
+                e.preventDefault();
+                return;
+              }
+
+              function getExtenstion(filename) {
+                  return filename.substr(filename.lastIndexOf('.') + 1);
+              }
+
+              if($("#file1").val().trim() != "") {
+                var file1ext = getExtenstion($("#file1").val());
+                if(file1ext == "jpg" || file1ext == "png") {
+
+                } else {
+                    alertP('Please select an image of your company logo in jpg/png format.');
+                    e.preventDefault();
+                    return;
+                }
+              }
+
+
+              var API_URL_USER_EDIT = API_BASE + "/update_manf_details_by_id/";
+
+              var formData = new FormData($(this)[0]);
+              $waitFull.show();
+
+
+              //navigator.notification.confirm(
+              //  "Are you sure, you want to save this details?",
+              //  function(button){
+                  //  if(button == 1) {
+                  setTimeout(function(){
+                      console.log("API_URL: " + API_URL_USER_EDIT);
+                      $frmButton.text("Saving...");
+                      $.ajax({
+                        type: 'POST',
+                        url: API_URL_USER_EDIT,
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        dataType: 'json',
+                        timeout: 10000,
+                        context: $('body'),
+                        success: function(data) {
+                            $waitFull.hide();
+                            console.log("Response via AJAX: ");
+                            console.log(data);
+                            hideBigLoader();
+                            if(data == null) {
+                              // showDataError();
+                              $frmButton.text("Save Profile");
+                            } else if(data.status == "success") {
+                                alertP('Information Saved');
+                                sendNotification(NOTI_TYPE_EDIT_PROFILE, function(noti_data){});
+                                $("#form-wrapper").addClass('view-mode');
+                                $("input").each(function(){
+                                    $(this).attr('readOnly');
+                                    $frmButton.css('display', 'none');
+                                });
+                                $("#header-logo-text").text("Your Profile");
+                            } else {
+                              // showConnectionError();
+                              $frmButton.text("Save Profile");
+                            }
+                        },
+                        error: function(xhr, type){
+                            $waitFull.hide();
+                            console.log("Erro in AJAX: " + type);
+                            showConnectionError();
+                            $frmButton.text("Save Profile");
+                        }
+                      });
+                  }, 1000); //set Timeout
+
+
+            });
+
+
+            // get user details
+            console.log("API_URL: " + API_URL_USER_GET);
+            $.ajax({
+              type: 'GET',
+              url: API_URL_USER_GET,
+              data: { },
+              dataType: 'json',
+              timeout: 10000,
+              context: $('body'),
+              success: function(data) {
+                  console.log("Response via AJAX: ");
+                  console.log(data);
+                  hideBigLoader();
+                  if(data == null) {
+                    // showDataError();
+                  } else if(data.status == "success") {
+                    var valFname = data.data.first_name;
+                    var vallname = data.data.last_name;
+                    var valCompanyName = data.data.company_name;
+                    var valAddress = data.data.address;
+                    var valEmail = data.data.email;
+                    var valMobileno = data.data.contact;
+                    var valProfileImg = data.data.profile_img;
+                    var valCompanyProfile = data.data.about_manf;
+                    $("#mid").val(getUserId());
+
+                    $("#userfile1old").val(data.data.profile_img);
+                    $("#userfile2old").val(data.data.brochar_img);
+
+
+                    if(valFname == "") { valFname = "–" }
+                    if(vallname == "") { vallname = "–" }
+                    if(valCompanyName == "") { valCompanyName = "–" }
+                    if(valEmail == "") { valEmail = "–" }
+                    if(valMobileno == "") { valMobileno = "–" }
+                    if(valAddress == "") { valAddress = "–" }
+
+                    // Post Data : first_name, last_name, company_name, address,
+                    // email, password, file1(Image), file2(image), contact
+                    $("#first_name").val(valFname);
+                    $("#last_name").val(vallname);
+                    $("#company_name").val(valCompanyName);
+                    $("#email").val(valEmail);
+                    $("#contact").val(valMobileno);
+                    $("#address").val(valAddress);
+                    $("#company_profile").val(valCompanyProfile);
+
+
+                    if(valProfileImg != "") {
+                        $("#profile_img").attr("src",
+                        "http://headwaytechnologies.in/images/manufacturer/"
+                        + valProfileImg);
+                    }
+
+                    $("#editIcon").show();
+                  } else {
+                    // showConnectionError();
+                  }
+              },
+              error: function(xhr, type) {
+                  console.log("Erro in AJAX: " + type);
+                  // showConnectionError();
+              }
+            });
+
+
+      });
+        </script>
+
+
+    </body>
+</html>

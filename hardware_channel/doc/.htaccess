@@ -1,0 +1,6 @@
+<FilesMatch "\.(pdf|jpg|png)$">
+FileETag None
+<ifModule mod_headers.c>
+Header unset Transfer-Encoding
+</ifModule>
+</FilesMatch>

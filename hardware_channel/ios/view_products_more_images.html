@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/skeleton.css" />
+        <link rel="stylesheet" type="text/css" href="css/spinner.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Product Images</title>
+    </head>
+    <body class="with_header_footer">
+      <div id="wait-full">
+        <p>Please Wait...</p>
+      </div>
+
+      <!-- header -->
+      <div class="container-fluid">
+        <div class="row">
+          <div id="header" class="twelve column">
+
+              <span id="header-logo-text">Images List</span>
+              <span id="header-menu">
+
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- main content  -->
+      <div class="container-fluid">
+        <div class="row">
+          <div id="main-content" class="twelve column">
+
+            <!--  SPINNEW -->
+            <div class="center-spinner-wrapper">
+              <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                 <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+              </svg>
+              <div class="spinner-loader">Loading...</div>
+            </div>
+
+            <!-- EROOR -->
+            <div class="error-wrapper-screen">
+                <div id="error-no-connection-div">Please Check your Network Connection</div>
+                <div id="error-data-div">Try Again Later</div>
+
+                <button id="try-again">Try Again</button>
+            </div>
+
+            <ul id="list-main">
+
+            </ul>
+
+            <!-- add_product_images -->
+            <style>
+              #add-image-wrapper {
+                  display: none;
+
+                  background: white;
+                  position: fixed;
+                  top: 80px;
+                  border: 1px solid #ccc;
+                  text-align: center;
+                  border-radius: 5px;
+
+                  width: 75%;
+                  position: fixed;
+                  left: 50%;
+                  margin-left: -37.5%;
+              }
+
+              #add-image-wrapper input[type=file] {
+                border: 1px solid #ccc;
+                margin-left: 10px;
+                margin-right: 10px;
+                width: 70%;
+              }
+            </style>
+            <div id="add-image-wrapper">
+                <form id="image-upload-frm" name="image-upload">
+                  <input type="hidden" id="pid" name="pid" />
+                  <br/>
+                  <h5>Choose Image</h5>
+                  <input type="file" id="userfile" name="userfile" />
+                  <input type="submit" id="image-submit" value="Upload" />
+                </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+        <script type='application/javascript' src='js/fastclick.js'></script>
+<script type='application/javascript' src='js/winstore-jscompact.js'></script>
+        <script type='application/javascript' src='js/zepto.min.js'></script>
+        <script type='application/javascript' src='js/handlebars-v4.0.4.js'></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type='application/javascript' src='js/index.js'></script>
+
+        <style>
+
+          .action-wrapper {
+            text-align: right;
+          }
+
+          .icon-images img {
+              background: transparent !important;
+              border: 0;
+              width: 30px;
+              height: auto;
+              box-shadow: none !important;
+
+          }
+
+          #list-main li:active, #list-main li:hover {
+              background: transparent;
+          }
+
+          #list-main li:first {
+              border-top: 0 !important;
+          }
+
+          .icon-images img:active {
+              background: white !important;
+          }
+
+          #list-main #add-image {
+            text-align: center;
+            margin: 10px;
+          }
+
+          #add-image-btn-wrapper { text-align: center; }
+        </style>
+        <script id="list-main-template" type="text/x-handlebars-template">
+          <h5 style="text-align:center; margin-top: 10px;">You can add maximum 5 images</h5>
+
+          {{#each data}}
+          <li data-id="{{this.pid}}">
+            <div data-id="{{this.pid}}"  class="to2">
+            <img src="http://headwaytechnologies.in/images/products/{{this.img}}" height="100" width="100" />
+            </div>
+
+            <div class="action-wrapper">
+              <span class="delete icon-images">
+                <img data-cid="{{this.id}}"  src="./img/ic_delete.png">
+              </span>
+            </div>
+          </li>
+          {{/each}}
+          <div id="add-image-btn-wrapper">
+            <a href="#" id="add-image" class="button">Add Image</a>
+          </div>
+        </script>
+
+        <script id="no-product-found" type="text/x-handlebars-template">
+          <div id="no-product-found" style="text-align:center; margin-top: 20px;">
+            <h4 style="">No Images Found</h4>
+            <a href="#" id="add-image" class="button">Add Image</a>
+            </div>
+        </script>
+
+        <script type="application/javascript">
+
+          var productId = getUrlParam("pid");
+          var API_URL = API_BASE + "/products_images_list/" + productId;
+          var listMain = $("#list-main");
+          var $waitFull = $("#wait-full");
+          var $addImageWrapper = $("#add-image-wrapper");
+
+          var totalImageCount = 0;
+
+          var source   = $("#list-main-template").html();
+          var template = Handlebars.compile(source);
+          var $headerText = $("#header-logo-text");
+
+          $("body").on('click', '#add-image', function(){
+              if(totalImageCount >= 5) {
+                alertP('You can add maximum 5 images');
+                return;
+              }
+              $("#pid").val(productId);
+              $addImageWrapper.show();
+          });
+
+
+          $(function($){
+
+            // submit image form
+            $("#image-upload-frm").on('submit', function(e){
+                e.preventDefault();
+
+                if($("#userfile").val() == "") {
+                  alertP("Please Select Image");
+                  e.preventDefault();
+                  return false;
+                } else {
+	              /* TODO: check only for iOS */
+	              /*
+                  var fileExt = getFileExtenstion($("#userfile").val());
+                  if(fileExt != "jpg") {
+                    if(fileExt != "png") {
+                      e.preventDefault();
+                      alertP("Please select valid image file");
+                      return false;
+                    }
+                  }
+                  */
+                }
+
+                $waitFull.show();
+                hideError();
+
+                var formData = new FormData($(this)[0]);
+
+
+                var apiUrl = API_BASE + ADD_PRODUCT_IMAGES_ENDPOINT + "/";
+
+                setTimeout(function(){
+
+                  console.log("API_URL: " + apiUrl);
+                  $.ajax({
+                    type: 'POST',
+                    url: apiUrl,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    dataType: 'json',
+                    timeout: 100000,
+                    context: $('body'),
+                    success: function(data) {
+                        console.log("Login Response: ");
+                        console.log(data);
+                        if(data.status == "fail") {
+                            $("image-submit").val('Upload');
+                            showError(data.data.title);
+                            $waitFull.hide();
+                        } else {
+                            // success
+                            alertP("Image Added Successfully");
+                            window.location.reload();
+                        }
+                    },
+                    error: function(xhr, type){
+                        $("image-submit").val('Upload');
+                        showError(NETWORK_ERROR_MSG);
+                        $waitFull.hide();
+                    }
+                  });
+
+                }, 1000);
+
+
+                e.preventDefault();
+                return false;
+            });
+
+            // click on Delete
+            $("#list-main").on('click', '.delete img', function(){
+               var pid = $(this).data('cid');
+               var retVal = confirm("Are You Sure, You Want To Delete This Image?");
+               if( retVal == true ){
+                 deleteProductImageById(pid, function(data){
+                    if(data.status == "success") {
+                      alertP("Successfully Deleted Image");
+                      window.location.reload();
+                    } else {
+                      alertP("Please Try Again Later");
+                    }
+                 });
+               }
+
+            });
+
+
+            console.log("API_CATEGORIES: " + API_URL);
+            $.ajax({
+              type: 'GET',
+              url: API_URL,
+              data: { },
+              dataType: 'json',
+              timeout: 10000,
+              context: $('body'),
+              success: function(data) {
+                  console.log("Response via AJAX: ");
+                  console.log(data);
+                  hideBigLoader();
+                  if(data == null) {
+                    showDataError();
+                  } else if(data.data.length < 1) {
+                    listMain.html($("#no-product-found").html());
+                  } else if(data.status == "success") {
+                    var listHTMLTemplate = template(data);
+                    totalImageCount = data.data.length;
+                    listMain.html(listHTMLTemplate);
+                  } else {
+                    showConnectionError();
+                  }
+              },
+              error: function(xhr, type){
+                  console.log("Erro in AJAX: " + type);
+                  hideBigLoader();
+                  showConnectionError();
+              }
+            });
+
+          });
+
+
+
+        </script>
+
+
+    </body>
+</html>
